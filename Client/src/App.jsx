@@ -7,11 +7,14 @@ import FavoritesPage from './pages/FavoritesPage'
 import BasketPage from './pages/BasketPage'
 import AddProductPage from './pages/AddProductPage'
 import ProductDetails from './pages/ProductDetailsPage'
+import Header from './layouts/Header'
+import Footer from './layouts/Footer'
 
 function App() {
 
   return (
     <>
+    <Header/>
     <Routes>
       <Route path='/' element={<HomePage/>} />
       <Route path='/favorites' element={<FavoritesPage/>} />
@@ -20,6 +23,7 @@ function App() {
       <Route path='/productdetails' element={<ProductDetails/>} />
       <Route path='*' element={<NotFoundPage/>} />
     </Routes>
+    <Footer/>
     </>
   )
 }
