@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(cors());
 const Schema = mongoose.Schema;
 
-const WatchSchema = new Schema(
+const courseSchema = new Schema(
   {
     title: { type: String, require: true },
     price: { type: Number, require: true },
@@ -21,13 +21,13 @@ const WatchSchema = new Schema(
   { timestamps: true }
 );
 
-const WatchModel = mongoose.model("Watch", WatchSchema);
-app.get("/api/watchs", async (req, res) => {
+const CourseModel = mongoose.model("Course", courseSchema);
+app.get("/api/course", async (req, res) => {
   try {
-    const watches = await WatchModel.find({});
+    const course = await CourseModel.find({});
 
-    if (watches.length > 0) {
-      res.status(200).send({ message: "success", data: watches });
+    if (course.length > 0) {
+      res.status(200).send({ message: "success", data: course });
     } else {
       res.status(204).send({
         message: "data is empty",
@@ -39,15 +39,15 @@ app.get("/api/watchs", async (req, res) => {
   }
 });
 
-app.get("/api/watchs/:id", async (req, res) => {
+app.get("/api/course/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const watch = await WatchModel.findById(id);
+    const course = await CourseModel.findById(id);
     
     if (watch) {
       res.status(200).send({
         message: "success",
-        data: watch,
+        data: course,
       });
     } else {
       res.status(404).send({ message: "data not found" });
@@ -57,45 +57,45 @@ app.get("/api/watchs/:id", async (req, res) => {
   }
 });
 
-app.delete("/api/watchs/:id", async (req, res) => {
+app.delete("/api/course/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const deletedWatch = await WatchModel.findByIdAndDelete(id);
-    const watches = await WatchModel.find({});
+    const deletedCourse = await CourseModel.findByIdAndDelete(id);
+    const course = await CourseModel.find({});
 
     res.status(200).send({
       message: "deleted successfully",
-      deletedProduct: deletedWatch,
-      allWatches: watches,
+      deletedCourse: deletedCourse,
+      allCourse: course,
     });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
 });
 
-app.post("/api/watchs", async (req, res) => {
+app.post("/api/course", async (req, res) => {
   try {
-    const newWatch = new WatchModel({ ...req.body });
-    await newWatch.save();
-    const watches = await WatchModel.find({});
+    const newCourse = new CourseModel({ ...req.body });
+    await newCourse.save();
+    const course = await CourseModel.find({});
 
     res.status(201).send({
       message: "created succesfully",
-      data: newWatch,
-      allWatches: watches,
+      data: newCourse,
+      allCourse: course,
     });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
 });
-app.patch("/api/watchs/:id", async (req, res) => {
+app.patch("/api/course/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    await WatchModel.findByIdAndUpdate(id, { ...req.body });
-    const updatedWatch = await WatchModel.findById(id);
+    await CourseModel.findByIdAndUpdate(id, { ...req.body });
+    const updatedCourse = await CourseModel.findById(id);
     res.send({
       message: "updated succesfully!",
-      updatedWatch: updatedWatch,
+      updatedCourse: updatedCourse,
     });
   } catch (error) {
     res.status(500).send({ message: error.message });
